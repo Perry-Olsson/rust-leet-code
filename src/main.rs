@@ -1,3 +1,3 @@
 fn main() {
-    leet_code::run()
+    rust_leet_code::run()
 }
