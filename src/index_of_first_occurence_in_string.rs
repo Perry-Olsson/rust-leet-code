@@ -4,7 +4,6 @@ impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
         let mut output_idx: i32 = -1;
         let mut char_ptr = 0;
-        // iterate over characters in haystack
         for (i, haystack_char) in haystack.chars().enumerate() {
             let needle_char = needle.chars().nth(char_ptr).unwrap();
             if haystack_char == needle_char {
@@ -20,13 +19,6 @@ impl Solution {
                 char_ptr = 0;
             }
         }
-        // check if hastack and needle at char pointer are equal
-        // yes? if output_idx not equal -1 then output_idx = cur_iteration_idx; char_ptr++
-            // if char_ptr >= needle.length return output_idx
-        // no? 
-            // output_idx = -1; char_ptr = 0;
-        // end iteration
-        // return -1
         -1
     }
 }
