@@ -1,3 +1,5 @@
+mod katas;
+
 fn main() {
-    rust_leet_code::run()
+    katas::run();
 }
