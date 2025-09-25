@@ -3,21 +3,41 @@ pub struct Solution {}
 impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
         let mut output_idx: i32 = -1;
-        let mut char_ptr = 0;
-        for (i, haystack_char) in haystack.chars().enumerate() {
-            let needle_char = needle.chars().nth(char_ptr).unwrap();
+        let mut ptr = 0;
+        let mut idx = 0;
+
+        let needle_len = needle.len();
+        let needle_bytes = needle.into_bytes();
+        let haystack_bytes = haystack.into_bytes();
+        let start_char = needle_bytes[0];
+        let mut start_char_idx: i32 = -1;
+        while idx < haystack_bytes.len() {
+            let haystack_char = haystack_bytes[idx];
+            let needle_char = needle_bytes[ptr];
             if haystack_char == needle_char {
                 if output_idx == -1 {
-                    output_idx = i as i32;
+                    output_idx = idx as i32;
+                } else {
+                    if haystack_char == start_char && start_char_idx == -1 {
+                        start_char_idx = idx as i32;
+                    }
                 }
-                char_ptr += 1;
-                if char_ptr >= needle.len() {
+                ptr += 1;
+                if ptr >= needle_len {
                     return output_idx as i32;
                 }
             } else {
                 output_idx = -1;
-                char_ptr = 0;
+                ptr = 0;
+                if start_char_idx != -1 {
+                    idx = start_char_idx as usize;
+                    start_char_idx = -1;
+                    continue;
+                } else if haystack_char == start_char {
+                    continue;
+                }
             }
+            idx += 1;
         }
         -1
     }
@@ -60,6 +80,24 @@ mod tests {
         let needle = String::from("abc");
         let first_occurenct = Solution::str_str(haystack, needle);
         let expected = 8;
+        assert_eq!(expected, first_occurenct)
+    }
+
+    #[test]
+    fn test_5() {
+        let haystack = String::from("mississippi");
+        let needle = String::from("issip");
+        let first_occurenct = Solution::str_str(haystack, needle);
+        let expected = 4;
+        assert_eq!(expected, first_occurenct)
+    }
+
+    #[test]
+    fn test_6() {
+        let haystack = String::from("mississippi");
+        let needle = String::from("pi");
+        let first_occurenct = Solution::str_str(haystack, needle);
+        let expected = 9;
         assert_eq!(expected, first_occurenct)
     }
 }
