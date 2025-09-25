@@ -2,8 +2,31 @@ pub struct Solution {}
 
 impl Solution {
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-        nums.retain(|num| *num != val);
+        Solution::optimized(nums, val)
+    }
+
+    fn simple(nums: &mut Vec<i32>, val: i32) -> i32 {
+        nums.retain(|&num| num != val);
         nums.len() as i32
+    }
+
+    fn optimized(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut elements_removed = 0;
+        let mut shuffle_idx = 0;
+
+        let mut i = 0;
+        while i < nums.len() {
+            let num = nums[i];
+            if num == val {
+                elements_removed += 1;
+            } else {
+                nums[shuffle_idx] = num;
+                shuffle_idx += 1;
+            }
+            i += 1;
+        };
+
+        nums.len() as i32 - elements_removed
     }
 }
 
