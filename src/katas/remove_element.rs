@@ -5,11 +5,6 @@ impl Solution {
         Solution::optimized(nums, val)
     }
 
-    fn simple(nums: &mut Vec<i32>, val: i32) -> i32 {
-        nums.retain(|&num| num != val);
-        nums.len() as i32
-    }
-
     fn optimized(nums: &mut Vec<i32>, val: i32) -> i32 {
         let mut elements_removed = 0;
         let mut shuffle_idx = 0;
