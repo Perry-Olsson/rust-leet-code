@@ -3,24 +3,36 @@ use std::cell::RefCell;
 
 pub struct Solution {}
 
-type Node = Option<Rc<RefCell<TreeNode>>>;
-
-fn new_node(val: i32) -> Node {
-    Option::Some(Rc::new(RefCell::new(TreeNode::new(val))))
-}
-
-fn is_less_than(node_1: &Node, node_2: &Node) -> bool {
-    node_1.as_ref().unwrap().borrow().val < node_2.as_ref().unwrap().borrow().val
-}
-
 impl Solution {
+    pub fn sorted_arary_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+        Solution::recurse(&nums)
+    }
+
+    fn recurse(nums: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
+        if nums.is_empty() {
+            return None;
+        }
+        let (left, right) = nums.split_at(nums.len() / 2);
+        let (cur, rest) = right.split_first().unwrap();
+        let tree_node = TreeNode {
+            val: *cur,
+            left: Solution::recurse(left),
+            right: Solution::recurse(rest)
+        };
+        Option::Some(Rc::new(RefCell::new(tree_node)))
+    }
+}
+
+struct InitialSolution {}
+
+impl InitialSolution {
     pub fn sorted_arary_to_bst(nums: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
         let left: i32 = 0;
         let right = (nums.len() - 1) as i32;
         let middle = (right - left) / 2;
         let mut head = new_node(nums[middle as usize]);
-        Solution::recurse(&mut head, &nums, left, middle - 1);
-        Solution::recurse(&mut head, &nums, middle + 1, right);
+        InitialSolution::recurse(&mut head, &nums, left, middle - 1);
+        InitialSolution::recurse(&mut head, &nums, middle + 1, right);
         head
     }
 
@@ -33,15 +45,25 @@ impl Solution {
         if is_less_than(&new_node, &node) {
             node.as_mut().unwrap().borrow_mut().left = new_node;
             let new_head = &mut node.as_mut().unwrap().borrow_mut().left;
-            Solution::recurse(new_head, nums, left, middle - 1);
-            Solution::recurse(new_head, nums, middle + 1, right);
+            InitialSolution::recurse(new_head, nums, left, middle - 1);
+            InitialSolution::recurse(new_head, nums, middle + 1, right);
         } else {
             node.as_mut().unwrap().borrow_mut().right = new_node;
             let new_head = &mut node.as_mut().unwrap().borrow_mut().right;
-            Solution::recurse(new_head, nums, left, middle - 1);
-            Solution::recurse(new_head, nums, middle + 1, right);
+            InitialSolution::recurse(new_head, nums, left, middle - 1);
+            InitialSolution::recurse(new_head, nums, middle + 1, right);
         }
     }
+}
+
+type Node = Option<Rc<RefCell<TreeNode>>>;
+
+fn new_node(val: i32) -> Node {
+    Option::Some(Rc::new(RefCell::new(TreeNode::new(val))))
+}
+
+fn is_less_than(node_1: &Node, node_2: &Node) -> bool {
+    node_1.as_ref().unwrap().borrow().val < node_2.as_ref().unwrap().borrow().val
 }
 
 #[derive(Debug, PartialEq, Eq)]
