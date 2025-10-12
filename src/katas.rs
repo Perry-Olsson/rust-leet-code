@@ -5,6 +5,7 @@ mod sum_3;
 mod container_with_most_water;
 mod search_insert_position;
 mod convert_sorted_array_to_binary_tree;
+mod pascals_triangle;
 
 pub fn run() {
     let mut input: Vec<i32> = vec![1, 2, 2, 3];
