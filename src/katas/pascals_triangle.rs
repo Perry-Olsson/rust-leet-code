@@ -2,20 +2,19 @@ pub struct Solution {}
 
 impl Solution {
     pub fn generate(num_rows: i32) -> Vec<Vec<i32>> {
-        let mut result = vec![vec![1]];
+        let mut result = Vec::with_capacity(num_rows as usize);
+        result.push(vec![1]);
         for i in 1..num_rows {
-            let size = (i + 1) as usize;
-            let mut row: Vec<i32> = Vec::with_capacity(size);
-            let prev = &result[(i - 1) as usize];
-            for i in 0..size {
+            let row_size = (i + 1) as usize;
+            let mut row: Vec<i32> = Vec::with_capacity(row_size);
+            let prev_row = result[(i - 1) as usize].as_slice();
+            for i in 0..row_size {
                 let mut num = 0;
-                let idx1 = i as i32 - 1;
-                let idx2 = i;
-                if idx1 >= 0 {
-                    num += prev[idx1 as usize];
+                if i > 0 {
+                    num += prev_row[i - 1];
                 }
-                if idx2 < prev.len() {
-                    num += prev[idx2];
+                if i < prev_row.len() {
+                    num += prev_row[i];
                 }
                 row.push(num);
             }
