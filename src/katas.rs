@@ -7,6 +7,7 @@ mod search_insert_position;
 mod convert_sorted_array_to_binary_tree;
 mod pascals_triangle;
 mod best_time_to_buy_and_sell_stock;
+mod inorder_bst_traversal;
 
 pub fn run() {
     let mut input: Vec<i32> = vec![1, 2, 2, 3];
@@ -19,4 +20,5 @@ pub fn run() {
     convert_sorted_array_to_binary_tree::Solution::sorted_arary_to_bst(vec![1, 2, 3, 4]);
     pascals_triangle::Solution::generate(4);
     best_time_to_buy_and_sell_stock::Solution::max_profit(vec![7 , 2, 3]);
+    inorder_bst_traversal::Solution::inorder_traversal(Option::None);
 }
