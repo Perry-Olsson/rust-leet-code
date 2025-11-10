@@ -9,6 +9,7 @@ mod pascals_triangle;
 mod best_time_to_buy_and_sell_stock;
 mod inorder_bst_traversal;
 mod same_tree;
+mod queue;
 
 pub fn run() {
     let mut input: Vec<i32> = vec![1, 2, 2, 3];
