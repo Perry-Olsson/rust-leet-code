@@ -8,6 +8,7 @@ mod convert_sorted_array_to_binary_tree;
 mod pascals_triangle;
 mod best_time_to_buy_and_sell_stock;
 mod inorder_bst_traversal;
+mod same_tree;
 
 pub fn run() {
     let mut input: Vec<i32> = vec![1, 2, 2, 3];
@@ -21,4 +22,5 @@ pub fn run() {
     pascals_triangle::Solution::generate(4);
     best_time_to_buy_and_sell_stock::Solution::max_profit(vec![7 , 2, 3]);
     inorder_bst_traversal::Solution::inorder_traversal(Option::None);
+    same_tree::Solution::is_same_tree(Option::None, Option::None);
 }
