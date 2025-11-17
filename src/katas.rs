@@ -10,6 +10,7 @@ mod best_time_to_buy_and_sell_stock;
 mod inorder_bst_traversal;
 mod same_tree;
 mod queue;
+mod palindrome_number;
 
 pub fn run() {
     let mut input: Vec<i32> = vec![1, 2, 2, 3];
@@ -24,4 +25,5 @@ pub fn run() {
     best_time_to_buy_and_sell_stock::Solution::max_profit(vec![7 , 2, 3]);
     inorder_bst_traversal::Solution::inorder_traversal(Option::None);
     same_tree::Solution::is_same_tree(Option::None, Option::None);
+    palindrome_number::Solution::is_palindrome(131);
 }
