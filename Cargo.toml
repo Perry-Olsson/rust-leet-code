@@ -7,3 +7,4 @@ edition = "2024"
 dead_code = "allow"
 
 [dependencies]
+stats_alloc = "0.1.10"
