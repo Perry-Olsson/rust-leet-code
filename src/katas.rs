@@ -12,6 +12,7 @@ mod same_tree;
 mod queue;
 mod palindrome_number;
 mod remove_duplicates_from_sorted_linked_list;
+mod sqrt;
 
 pub fn run() {
     println!("hello");
