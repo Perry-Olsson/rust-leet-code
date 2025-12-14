@@ -8,14 +8,10 @@ impl Solution {
                 char_stack.push(char)
             } else {
                 match char_stack.last() {
-                    Some(opening_char) => {
-                        if *opening_char != char.get_opening_char() {
-                            return false
-                        } else {
-                            char_stack.pop();
-                        }
+                    Some(opening_char) if *opening_char == char.get_opening_char() => {
+                        char_stack.pop();
                     },
-                    None => return false,
+                    _ => return false,
                 }
             }
         }
