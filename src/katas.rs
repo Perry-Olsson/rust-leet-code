@@ -14,6 +14,7 @@ mod palindrome_number;
 mod remove_duplicates_from_sorted_linked_list;
 mod sqrt;
 mod symmetric_tree;
+mod valid_parentheses;
 
 pub fn run() {
     println!("hello");
