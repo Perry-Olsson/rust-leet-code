@@ -17,6 +17,7 @@ mod symmetric_tree;
 mod valid_parentheses;
 mod gray_code;
 mod roman_numeral_to_int;
+mod balanced_binary_tree;
 
 pub fn run() {
     println!("Len: {}", gray_code::Solution::gray_code(30).len())
