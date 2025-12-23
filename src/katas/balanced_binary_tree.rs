@@ -4,17 +4,19 @@ pub struct Solution {}
 
 impl Solution {
     pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        Solution::check_balanced(root).0
+        Solution::check_balanced(root) != -1
     }
 
-    fn check_balanced(maybe_node: Option<Rc<RefCell<TreeNode>>>) -> (bool, i32) {
+    fn check_balanced(maybe_node: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         if let Some(node) = maybe_node {
-            let (is_left_balanced, left_height) = Solution::check_balanced(node.borrow_mut().left.take());
-            let (is_right_balanced, right_height) = Solution::check_balanced(node.borrow_mut().right.take());
-            let height = 1 + std::cmp::max(left_height, right_height);
-            (is_left_balanced && is_right_balanced && (left_height - right_height).abs() <= 1, height)
+            let left_height = Solution::check_balanced(node.borrow_mut().left.take());
+            let right_height = Solution::check_balanced(node.borrow_mut().right.take());
+            if (left_height - right_height).abs() > 1 || left_height == -1 || right_height == -1 {
+                return -1;
+            }
+            left_height.max(right_height) + 1
         } else {
-            return (true, 0);
+            return 0;
         }
     }
 }
