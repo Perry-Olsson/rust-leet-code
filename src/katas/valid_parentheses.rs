@@ -1,9 +1,9 @@
 pub struct Solution {}
 
 impl Solution {
-   pub fn is_valid(s: &str) -> bool {
-        let mut char_stack: Vec<char> = Vec::new();
-        for char in s.chars() {
+   pub fn is_valid(s: String) -> bool {
+        let mut char_stack: Vec<u8> = Vec::with_capacity(s.len());
+        for char in s.bytes() {
             if char.is_opening() {
                 char_stack.push(char)
             } else {
@@ -25,21 +25,21 @@ trait Bracket {
     fn get_opening_char(&self) -> Self;
 }
 
-impl Bracket for char {
+impl Bracket for u8 {
     fn is_opening(&self) -> bool {
         match self {
-            '(' => true,
-            '{' => true,
-            '[' => true,
+            b'(' => true,
+            b'{' => true,
+            b'[' => true,
             _ => false
         }
     }
 
-    fn get_opening_char(&self) -> char {
+    fn get_opening_char(&self) -> u8 {
         match self {
-            ')' => '(',
-            '}' => '{',
-            ']' => '[',
+            b')' => b'(',
+            b'}' => b'{',
+            b']' => b'[',
             _ => panic!("Shouldn't happen") 
         }
     }
@@ -51,11 +51,11 @@ mod tests {
 
     #[test]
     fn test_1() {
-        assert!(Solution::is_valid("(){({})}"));
+        assert!(Solution::is_valid("(){({})}".to_string()));
     }
 
     #[test]
     fn test_2() {
-        assert!(!Solution::is_valid("(){({}})"));
+        assert!(!Solution::is_valid("(){({}})".to_string()));
     }
 }
