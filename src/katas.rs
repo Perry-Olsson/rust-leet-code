@@ -18,5 +18,5 @@ mod valid_parentheses;
 mod gray_code;
 
 pub fn run() {
-    println!("hello");
+    println!("Len: {}", gray_code::Solution::gray_code(30).len())
 }
