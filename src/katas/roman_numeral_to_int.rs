@@ -14,15 +14,19 @@ impl Solution {
 
 
         let mut result = 0;
-        for (i, b) in s.bytes().enumerate() {
-            let val = roman_numeral_values[usize::from(b)];
-            let next_val = if i + 1 < s.len() { roman_numeral_values[usize::from(s.as_bytes()[i + 1])] } else { 0 };
+        let mut i = 0;
+        let bytes = s.as_bytes();
+        while i < s.len() - 1 {
+            let val = roman_numeral_values[usize::from(bytes[i])];
+            let next_val = roman_numeral_values[usize::from(bytes[i + 1])];
             if next_val > val {
                 result -= val;
             } else {
                 result += val;
             }
+            i += 1;
         }
+        result += roman_numeral_values[usize::from(bytes[i])];
         result
     }
 }
