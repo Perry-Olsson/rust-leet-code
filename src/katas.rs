@@ -19,7 +19,8 @@ mod gray_code;
 mod roman_numeral_to_int;
 mod balanced_binary_tree;
 mod integer_to_roman_numeral;
+mod regular_expression_matcher;
 
 pub fn run() {
-    println!("Len: {}", gray_code::Solution::gray_code(30).len())
+    regular_expression_matcher::Solution::is_match("mississippi".to_string(), "mis*is*p*.".to_string());
 }
