@@ -2,23 +2,22 @@ pub struct Solution {}
 
 impl Solution {
     pub fn is_match(s: String, p: String) -> bool {
-        let mut matchers: Vec<Matcher> = Vec::new();
-        let mut p_iter = p.chars().peekable();
-        while let Some(c) = p_iter.next() {
-            let mut matcher = Matcher {
-                chr: c,
-                is_zero_or_more: false
-            };
-            if let Some(next) = p_iter.peek() {
-                if *next == '*' {
-                    matcher.is_zero_or_more = true;
-                    p_iter.next();
-                }
-            }
-            matchers.push(matcher);
+        let s_chars = s.chars().collect::<Vec<char>>();
+        let p_chars = p.chars().collect::<Vec<char>>();
+        Solution::is_match_recursive(s_chars.as_slice(), p_chars.as_slice())
+    }
+
+    fn is_match_recursive(s: &[char], p: &[char]) -> bool {
+        if p.is_empty() {
+            return s.is_empty();
         }
-        println!("{:?}", matchers);
-        false
+        let does_first_char_match = !s.is_empty() && p[0].match_chr(s[0]);
+        if p.len() >= 2 && p[1] == '*' {
+            return Solution::is_match_recursive(s, &p[2..]) || 
+                (does_first_char_match && Solution::is_match_recursive(&s[1..], p))
+        } else {
+            return does_first_char_match && Solution::is_match_recursive(&s[1..], &p[1..]);
+        }
     }
 }
 
@@ -42,18 +41,14 @@ impl CharMatcher for char {
     }
 }
 
-//
-// struct CharMatcher {}
-// struct AnyMatcher {}
-// struct ZeroOrMoreMatcher {}
-//
-// 1. get_matcher -> (Matcher, index)
-// 2. Matcher.match_str(s[cur_idx..]) -> nxt_idx
-// 3. 
-
 #[cfg(test)]
 mod tests {
     use super::Solution;
+
+    #[test] fn test_empty_args() {
+        assert_eq!(Solution::is_match("".to_string(), "".to_string()), true);
+        assert_eq!(Solution::is_match("a".to_string(), "".to_string()), false);
+    }
 
     #[test]
     fn test_exact_match() {
@@ -127,7 +122,7 @@ mod tests {
         assert_eq!(Solution::is_match("aaa".to_string(), "a*a".to_string()), true);
         assert_eq!(Solution::is_match("aaa".to_string(), "ab*a*c*a".to_string()), true);
         assert_eq!(Solution::is_match("aa".to_string(), "a*".to_string()), true);
-        assert_eq!(Solution::is_match("".to_string(), "a*".to_string()), false); // empty string not allowed per constraints
+        assert_eq!(Solution::is_match("".to_string(), "a*".to_string()), true); // empty string not allowed per constraints
     }
 
     #[test]
@@ -165,55 +160,3 @@ mod tests {
         assert_eq!(Solution::is_match("abcd".to_string(), "a.*d".to_string()), true);
     }
 }
-    /* pub fn is_match(s: String, p: String) -> bool {
-        let mut pattern = p.chars().peekable();
-        let mut input = s.chars().peekable();
-        while let Some(c) = pattern.next() {
-            let next = pattern.peek();
-            match next {
-                Some(nc) if *nc == '*' => {
-                    if *nc == '*' {
-                        pattern.next();
-                        if c == '.' {
-                            // .* case
-                            match pattern.peek() {
-                                Some(next_pattern) => {
-                                    while let Some(input_char) = input.peek() {
-                                        if next_pattern.match_chr(*input_char) {
-                                            break;
-                                        } else {
-                                            input.next();
-                                        }
-                                    }
-                                }
-                                None => {
-                                    return true;
-                                }
-                            }
-                        } else {
-                            // char* case
-                            println!("hello");
-                            while let Some(input_char) = input.peek() {
-                                if c.match_chr(*input_char) {
-                                    input.next();
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                _ => {
-                    if let Some(input_char) = input.next() {
-                        if !c.match_chr(input_char) {
-                            return false;
-                        }
-                    } else {
-                        //end of string return true or false?
-                        return false;
-                    }
-                }
-            }
-        }
-        input.next().is_none()
-    } */
