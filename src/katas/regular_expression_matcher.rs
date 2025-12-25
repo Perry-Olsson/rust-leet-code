@@ -3,32 +3,72 @@ pub struct Solution {}
 impl Solution {
     pub fn is_match(s: String, p: String) -> bool {
         let mut pattern = p.chars().peekable();
-        let mut input = s.chars();
-        let char = pattern.next();
-        if let Some(c) = char {
+        let mut input = s.chars().peekable();
+        while let Some(c) = pattern.next() {
             let next = pattern.peek();
             match next {
                 Some(nc) if *nc == '*' => {
                     if *nc == '*' {
-                        println!("matching zero or more of {}, on {}", c, input.next().expect("End of string"));
+                        pattern.next();
+                        if c == '.' {
+                            // .* case
+                            match pattern.peek() {
+                                Some(next_pattern) => {
+                                    while let Some(input_char) = input.peek() {
+                                        if next_pattern.match_chr(*input_char) {
+                                            break;
+                                        } else {
+                                            input.next();
+                                        }
+                                    }
+                                }
+                                None => {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            // char* case
+                            println!("hello");
+                            while let Some(input_char) = input.peek() {
+                                if c.match_chr(*input_char) {
+                                    input.next();
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
                 _ => {
-                    if c == '.' {
-                        println!("Matching any char on {}", input.next().expect("End of string"));
+                    if let Some(input_char) = input.next() {
+                        if !c.match_chr(input_char) {
+                            return false;
+                        }
                     } else {
-                        println!("Matching char {}, on {}", c, input.next().expect("End of string"));
+                        //end of string return true or false?
+                        return false;
                     }
                 }
             }
         }
-        true
+        input.next().is_none()
     }
 }
 
-/* trait Matcher {
-    fn match_str(&self, s: &str) -> usize;
-} */
+trait Matcher {
+    fn match_chr(&self, char: char) -> bool;
+}
+
+impl Matcher for char {
+    fn match_chr(&self, char: char) -> bool {
+        if *self == '.' {
+            true
+        } else {
+            *self == char
+        }
+    }
+}
+
 //
 // struct CharMatcher {}
 // struct AnyMatcher {}
