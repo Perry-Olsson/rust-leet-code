@@ -18,6 +18,7 @@ mod valid_parentheses;
 mod gray_code;
 mod roman_numeral_to_int;
 mod balanced_binary_tree;
+mod integer_to_roman_numeral;
 
 pub fn run() {
     println!("Len: {}", gray_code::Solution::gray_code(30).len())
