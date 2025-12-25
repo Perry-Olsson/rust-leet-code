@@ -21,12 +21,6 @@ impl Solution {
     }
 }
 
-#[derive(Debug)]
-struct Matcher {
-    chr: char,
-    is_zero_or_more: bool
-}
-
 trait CharMatcher {
     fn match_chr(&self, char: char) -> bool;
 }
