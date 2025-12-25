@@ -2,64 +2,37 @@ pub struct Solution {}
 
 impl Solution {
     pub fn is_match(s: String, p: String) -> bool {
-        let mut pattern = p.chars().peekable();
-        let mut input = s.chars().peekable();
-        while let Some(c) = pattern.next() {
-            let next = pattern.peek();
-            match next {
-                Some(nc) if *nc == '*' => {
-                    if *nc == '*' {
-                        pattern.next();
-                        if c == '.' {
-                            // .* case
-                            match pattern.peek() {
-                                Some(next_pattern) => {
-                                    while let Some(input_char) = input.peek() {
-                                        if next_pattern.match_chr(*input_char) {
-                                            break;
-                                        } else {
-                                            input.next();
-                                        }
-                                    }
-                                }
-                                None => {
-                                    return true;
-                                }
-                            }
-                        } else {
-                            // char* case
-                            println!("hello");
-                            while let Some(input_char) = input.peek() {
-                                if c.match_chr(*input_char) {
-                                    input.next();
-                                } else {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                _ => {
-                    if let Some(input_char) = input.next() {
-                        if !c.match_chr(input_char) {
-                            return false;
-                        }
-                    } else {
-                        //end of string return true or false?
-                        return false;
-                    }
+        let mut matchers: Vec<Matcher> = Vec::new();
+        let mut p_iter = p.chars().peekable();
+        while let Some(c) = p_iter.next() {
+            let mut matcher = Matcher {
+                chr: c,
+                is_zero_or_more: false
+            };
+            if let Some(next) = p_iter.peek() {
+                if *next == '*' {
+                    matcher.is_zero_or_more = true;
+                    p_iter.next();
                 }
             }
+            matchers.push(matcher);
         }
-        input.next().is_none()
+        println!("{:?}", matchers);
+        false
     }
 }
 
-trait Matcher {
+#[derive(Debug)]
+struct Matcher {
+    chr: char,
+    is_zero_or_more: bool
+}
+
+trait CharMatcher {
     fn match_chr(&self, char: char) -> bool;
 }
 
-impl Matcher for char {
+impl CharMatcher for char {
     fn match_chr(&self, char: char) -> bool {
         if *self == '.' {
             true
@@ -192,3 +165,55 @@ mod tests {
         assert_eq!(Solution::is_match("abcd".to_string(), "a.*d".to_string()), true);
     }
 }
+    /* pub fn is_match(s: String, p: String) -> bool {
+        let mut pattern = p.chars().peekable();
+        let mut input = s.chars().peekable();
+        while let Some(c) = pattern.next() {
+            let next = pattern.peek();
+            match next {
+                Some(nc) if *nc == '*' => {
+                    if *nc == '*' {
+                        pattern.next();
+                        if c == '.' {
+                            // .* case
+                            match pattern.peek() {
+                                Some(next_pattern) => {
+                                    while let Some(input_char) = input.peek() {
+                                        if next_pattern.match_chr(*input_char) {
+                                            break;
+                                        } else {
+                                            input.next();
+                                        }
+                                    }
+                                }
+                                None => {
+                                    return true;
+                                }
+                            }
+                        } else {
+                            // char* case
+                            println!("hello");
+                            while let Some(input_char) = input.peek() {
+                                if c.match_chr(*input_char) {
+                                    input.next();
+                                } else {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                _ => {
+                    if let Some(input_char) = input.next() {
+                        if !c.match_chr(input_char) {
+                            return false;
+                        }
+                    } else {
+                        //end of string return true or false?
+                        return false;
+                    }
+                }
+            }
+        }
+        input.next().is_none()
+    } */
