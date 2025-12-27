@@ -20,6 +20,7 @@ mod roman_numeral_to_int;
 mod balanced_binary_tree;
 mod integer_to_roman_numeral;
 mod regular_expression_matcher;
+mod sum_3_closest;
 
 pub fn run() {
     regular_expression_matcher::Solution::is_match("mississippi".to_string(), "mis*is*p*.".to_string());
