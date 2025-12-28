@@ -21,7 +21,8 @@ mod balanced_binary_tree;
 mod integer_to_roman_numeral;
 mod regular_expression_matcher;
 mod sum_3_closest;
+mod sum_4;
 
 pub fn run() {
-    regular_expression_matcher::Solution::is_match("mississippi".to_string(), "mis*is*p*.".to_string());
+    sum_4::Solution::four_sum(vec![-2,-1,-1,1,1,2,2], 0);
 }
