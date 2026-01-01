@@ -7,7 +7,8 @@ impl Solution {
         }
         let mut result: Vec<Vec<i32>> = Vec::new();
         nums.sort_unstable();
-        println!("{:?}", nums);
+        let nums: Vec<f64> = nums.iter().map(|x| *x as f64).collect();
+        let target = target as f64;
         for i in 0..(nums.len() - 3) {
             if i > 0 && nums[i] == nums[i - 1] {
                 continue;
@@ -21,8 +22,7 @@ impl Solution {
                 while left < right {
                     let sum = nums[i] + nums[j] + nums[left] + nums[right];
                     if sum == target {
-                        println!("{}, {}, {}, {}", i, j, left, right);
-                        result.push(vec![nums[i], nums[j], nums[left], nums[right]]);
+                        result.push(vec![nums[i] as i32, nums[j] as i32, nums[left] as i32, nums[right] as i32]);
                     }
 
                     if sum < target {
