@@ -23,7 +23,8 @@ mod regular_expression_matcher;
 mod sum_3_closest;
 mod sum_4;
 mod maximum_depth_of_binary_tree;
+mod excel_sheet_column_title;
 
 pub fn run() {
-    sum_4::Solution::four_sum(vec![-2,-1,-1,1,1,2,2], 0);
+   excel_sheet_column_title::Solution::convert_to_title(701);
 }
